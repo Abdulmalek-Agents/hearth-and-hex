@@ -2,19 +2,21 @@
 
 > **👨‍💻 Senior Unity Developer:** Mobile-grade, scalable-from-day-1. Mission 1 ships on the same code paths as Mission 6.
 > v0.2: removed runtime LLM dependency. Dialogue is hand-authored ScriptableObjects.
+> v0.2.1: Unity 6 LTS (6000.4.4f1) target.
 
 ## 1. Stack
 
 | Layer | Choice |
 |---|---|
-| Engine | Unity **2022.3 LTS** |
-| Render | **URP** |
+| Engine | Unity **6 LTS (6000.4.4f1)** |
+| Render | **URP 17.x** (Unity 6 default) |
 | Scripting | C# 9, .NET Standard 2.1 |
 | Input | New Input System |
 | UI | Canvas + TextMeshPro |
 | Async loading | Addressables |
 | Save | JsonUtility → persistentDataPath |
 | Dialogue | Hand-authored `DialogueNodeSO` + `LineBankSO` (ScriptableObjects) |
+| Camera | Cinemachine 3.x (Unity 6 default) |
 | Source control | Git + Unity Smart Merge + LFS |
 
 ## 2. Folder layout (`Assets/_Project/Scripts/`)
@@ -76,11 +78,19 @@ Player interacts FarmPlot → ReportObjectiveProgress('m1_till_plot')
 | URP cost on integrated GPU? | ✅ Stylized Lit shaders only |
 | Internet outage breaks game? | ❌ No — fully offline |
 
-## 7. Build targets
+## 7. Unity 6 (6000.4.4f1) compatibility notes
+
+- **URP** upgraded from 14.x (Unity 2022) to 17.x. Stylized Lit shaders ship Unity-6-ready; if an Asset Store pack imports with pink materials, run **Edit → Rendering → Render Pipeline Converter → Built-in to URP**.
+- **Cinemachine** is now 3.x. The old `CinemachineFreeLook` is replaced by `CinemachineCamera` with a `CinemachineOrbitalFollow` component. The setup steps in `docs/07` use the Unity 6 names.
+- **Render Graph API** is opt-in for URP performance; not required for M1 but available for later optimisation.
+- **Addressables**, **TextMeshPro**, **New Input System**, **Splines**, **NavMesh** all work as-is.
+- **Photon PUN 2** (used elsewhere in the slate) ships with Unity 6 support; Photon Voice 2 likewise.
+
+## 8. Build targets
 
 Windows x64 (primary), macOS (stretch), Android/iOS (stretch).
 
-## 8. Performance budget (60 fps on Intel Iris Xe)
+## 9. Performance budget (60 fps on Intel Iris Xe)
 
 - Draw calls < 800
 - Triangles < 1.2M
@@ -91,6 +101,6 @@ Windows x64 (primary), macOS (stretch), Android/iOS (stretch).
 
 Profile every scene with Unity Profiler before `main` merge.
 
-## 9. CI (later)
+## 10. CI (later)
 
-GitHub Actions + `game-ci/unity-builder@v4` for nightly Windows builds on `develop`.
+GitHub Actions + `game-ci/unity-builder@v4` (Unity 6 supported); nightly Windows builds on `develop`.

@@ -1,5 +1,19 @@
 # Changelog — Hearth & Hex
 
+## [v0.2.1] — Unity 6 LTS target
+
+### Changed
+- Engine target bumped from Unity 2022.3 LTS → **Unity 6 LTS (6000.4.4f1)**.
+- URP from 14.x → 17.x.
+- Cinemachine references updated: the old `CinemachineFreeLook` is replaced by `CinemachineCamera + CinemachineOrbitalFollow` (Cinemachine 3.x).
+- `docs/04_TECHNICAL_ARCHITECTURE.md` §1 + new §7 "Unity 6 compatibility notes".
+- `docs/07_UNITY_SETUP_GUIDE.md` Step 1, Step 4 import note, Step 7 camera note, Troubleshooting.
+- `README.md` Engine row.
+
+No gameplay code changes — v0.2 C# is fully forward-compatible with Unity 6.
+
+---
+
 ## [v0.2-mission1-no-runtime-ai] — Removed runtime LLM dependencies
 
 ### Changed

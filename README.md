@@ -7,7 +7,7 @@
 |---|---|
 | **Genre** | Cozy Farming Life-Sim + Light Magic |
 | **Platforms** | PC (Steam) primary; iOS / Android stretch goal |
-| **Engine** | Unity 2022.3 LTS + URP |
+| **Engine** | Unity **6 LTS (6000.4.4f1)** + URP |
 | **Target frame-rate** | 60 fps on integrated GPU |
 | **Mission 1 scope** | Tutorial day → first crop → first villager friendship |
 | **Designed for** | 6 missions (seasonal arcs) |
@@ -61,7 +61,7 @@ hearth-and-hex/
 ## Quick start
 
 1. **Read** [docs/07_UNITY_SETUP_GUIDE.md](docs/07_UNITY_SETUP_GUIDE.md) — exact click-by-click setup.
-2. **Create** a new Unity 2022.3 LTS URP project, then copy this repo's `Assets/_Project` folder into your Unity `Assets/` folder.
+2. **Create** a new Unity **6 LTS (6000.4.4f1)** URP project, then copy this repo's `Assets/_Project` folder into your Unity `Assets/` folder.
 3. **Import** the asset packs listed in [docs/03_ASSET_PLAN.md](docs/03_ASSET_PLAN.md) (Harvest Garden, Medieval Village Megapack, Toon Town, Stylized Weather System, BoZo Fantasy Characters, Bamao Pack Fantasy GUI, Game UI & Puzzle Sound Effects Pack — already in your Inventix Asset Store inventory).
 4. **Open** `Scenes/Bootstrap.unity` → Play.
 
@@ -75,6 +75,7 @@ hearth-and-hex/
 | GDD v1.0 approved | ✅ |
 | Architecture & scripts | ✅ |
 | v0.2 — runtime LLM removed, scripted dialogue stack | ✅ |
+| v0.2.1 — Unity 6 LTS (6000.4.4f1) target | ✅ |
 | Mission 1 scene authored | ⏳ requires asset import in Unity |
 | Missions 2–6 outlined | ✅ data-driven, ready for content |
 | Steam page | ⬜ |

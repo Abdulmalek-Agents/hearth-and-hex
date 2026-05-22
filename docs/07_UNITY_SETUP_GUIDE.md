@@ -1,18 +1,19 @@
 # 🛠️ Unity Setup Guide — Hearth & Hex
 
 > Step-by-step. Follow in order → end with a playable Mission 1.
-> **v0.2: no proxy server, no API key, no internet config required.**
+> **v0.2.1: Unity 6 LTS (6000.4.4f1) target. No proxy server, no API key, no internet config required.**
 
 ## Prerequisites
 
-- Unity Hub + Unity **2022.3.30f1 LTS** with Windows IL2CPP module
+- Unity Hub + Unity **6 LTS (6000.4.4f1)** with Windows IL2CPP module
 - Each asset from `docs/03_ASSET_PLAN.md` in your Inventix Asset Store account
 
 ## Step 1 — Create the Unity project
 
-1. Unity Hub → **New project** → **3D (URP) Core**.
-2. Name: `HearthAndHex` (no spaces). Choose drive with 20+ GB free.
-3. **Create project**.
+1. Unity Hub → **New project**. In the Editor dropdown choose **6000.4.4f1**.
+2. Template: **Universal 3D** (Unity 6's URP template; replaces the old "3D (URP) Core").
+3. Name: `HearthAndHex` (no spaces). Choose drive with 20+ GB free.
+4. **Create project**.
 
 ## Step 2 — Drop this repo in
 
@@ -26,7 +27,7 @@ Unity recompiles — should be **zero errors**. If TMP errors: **Window → Text
 
 ## Step 3 — Render Pipeline + Quality
 
-1. **Project Settings → Graphics**: URP asset assigned.
+1. **Project Settings → Graphics**: URP 17.x asset assigned (Unity 6 default).
 2. **Project Settings → Quality**: High (PC default); make Low tier without HDR/Soft Particles.
 3. **Project Settings → Player → Color Space → Linear**.
 
@@ -52,6 +53,8 @@ Order matters (shared shader overwrites):
 
 After each: delete the demo scene; move package folder to `Assets/_Project/Art/...`.
 
+> **Unity 6 note:** If any package imports with pink materials, run **Edit → Rendering → Render Pipeline Converter → Built-in to URP** (this also converts Unity 2022–era assets to URP 17.x).
+
 ## Step 5 — Bootstrap scene
 
 1. **New Scene → Empty** → save `Scenes/Bootstrap.unity`.
@@ -76,7 +79,7 @@ After each: delete the demo scene; move package folder to `Assets/_Project/Art/.
 5. Drop Harvest Garden raised-bed; add 9 FarmPlot components (3×3).
 6. 60m down path: 4-6 Toon Town buildings around a well.
 7. Drop BoZo NPCs near inn (`NPC_Elra`) and shepherd house (`NPC_Benn`). Attach `VillagerNpc`, set `displayName`, drag `Node_Elra_Root.asset` (or `Node_Benn_Root.asset`) into `rootDialogue`, drag the `DialogueUI` reference, optionally set `meetObjectiveId`.
-8. Drop Player_Witch.prefab at cottage spawn. Cinemachine FreeLook camera.
+8. Drop Player_Witch.prefab at cottage spawn. **In Unity 6**: add a **CinemachineCamera** + **CinemachineOrbitalFollow** (the modern replacement for the old CinemachineFreeLook). Set Follow + LookAt to the player.
 9. Empty `[Mission01Director]` GameObject; attach Mission01Director.cs; wire triggers.
 10. **Create → Inventix → Mission → Mission Data**, name `MissionData_M01.asset`. Fill 8 objectives (see GDD §6).
 11. Add to MissionDatabase. Build Settings index 2.
@@ -102,7 +105,8 @@ For each NPC who has lines in M1 (Elra + Benn for tutorial):
 | Symptom | Fix |
 |---|---|
 | `IMissionService not registered` | Bootstrap not scene 0 |
-| Pink materials | URP not assigned OR convert Built-in → URP |
+| Pink materials | Render Pipeline Converter (Built-in → URP) |
+| CinemachineFreeLook is missing | Unity 6 — use **CinemachineCamera + CinemachineOrbitalFollow** instead |
 | Player falls through ground | Add MeshCollider to raised bed |
 | Dialogue opens then immediately closes | `rootDialogue` not assigned on `VillagerNpc` |
 | Reply buttons not appearing | `replyContainer` / `replyButtonPrefab` not assigned on `DialogueUI` |
@@ -111,6 +115,6 @@ For each NPC who has lines in M1 (Elra + Benn for tutorial):
 
 ## After M1 plays
 
-1. Tag `v0.2-mission1-playable`.
+1. Tag `v0.2.1-mission1-playable`.
 2. Author M2: duplicate scene, create `MissionData_M02.asset`, add Mission02Director.
 3. Repeat M3-M6. **Zero core C# changes** required — that's the architecture win.
