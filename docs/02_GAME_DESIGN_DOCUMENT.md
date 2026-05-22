@@ -1,6 +1,7 @@
 # 📜 Game Design Document — Hearth & Hex
 
-> **🗺️ Game & Level Designer:** GDD v1.0 — approved by Creative Director after 3 review cycles.
+> **🗺️ Game & Level Designer:** GDD v1.1 — approved by Creative Director after 4 review cycles.
+> v0.2: dialogue is hand-authored `DialogueNodeSO` trees (no runtime LLM).
 
 ## 1. High-concept
 
@@ -26,7 +27,7 @@ You inherit your late grandmother's overgrown smallholding on the edge of **Lark
 | Walk / run | WASD / Shift | M1 | Footstep SFX per surface |
 | Interact | E | M1 | Bamao GUI prompt |
 | Use tool | LMB + Q wheel | M1 | Animation + soil/water VFX |
-| Talk to NPC | E on NPC | M1 | Bamao dialogue + Claude streaming text |
+| Talk to NPC | E on NPC | M1 | Bamao dialogue UI + branching reply buttons (`DialogueNodeSO`) |
 | Brew enchantment | At hearth | M2 | Casual RPG VFX + jingle |
 | Cast field charm | Hotbar 1-4 | M3+ | Spells Pack VFX |
 
@@ -59,10 +60,10 @@ You inherit your late grandmother's overgrown smallholding on the edge of **Lark
 **Goal:** Establish tone, tutorialise farming, deliver first warm friendship. **Duration:** 30–45 min.
 
 **Flow:**
-1. Cottage Interior — opening cutscene; Granny's journal glows; Claude-generated greeting.
+1. Cottage Interior — opening cutscene; Granny's journal glows; first journal narration line from `LineBank_Granny_Journal.asset`.
 2. Cottage Doorway — first objective to step outside.
 3. Farm Plot — till 3 tiles, plant 3 seeds, water with can.
-4. Village Path — meet Elra (innkeeper) and Benn (shepherd), Claude AI conversations.
+4. Village Path — meet Elra (innkeeper) and Benn (shepherd), branching dialogue via `Node_Elra_Root.asset` / `Node_Benn_Root.asset`.
 5. Cottage at Sunset — return home, mission complete.
 
 **Objectives (in MissionDataSO):**
@@ -70,16 +71,16 @@ You inherit your late grandmother's overgrown smallholding on the edge of **Lark
 - `m1_till_plot` (3)
 - `m1_plant_seeds` (3)
 - `m1_water_plants` (3)
-- `m1_meet_elra` (1)
-- `m1_meet_benn` (1)
+- `m1_meet_elra` (1) — reported by a Reply in Node_Elra_Root
+- `m1_meet_benn` (1) — reported by a Reply in Node_Benn_Root
 - `m1_return_home` (1)
 - `m1_optional_pet_cat` (1, optional)
 
 **Checkpoints:** Auto-save on doorway exit, village entry, sleep.
 
-## 7. NPC roster
+## 7. NPC roster (voice guide — drives the hand-authored dialogue trees)
 
-| ID | Name | Role | Claude persona seed |
+| ID | Name | Role | Voice guide (used by writers + Claude in dev) |
 |---|---|---|---|
 | `elra` | Elra | Innkeeper | Warm, gossipy; avoids talking about late husband |
 | `benn` | Benn | Shepherd | Sparse, dry humour, loves dog Pippin |
@@ -103,17 +104,18 @@ You inherit your late grandmother's overgrown smallholding on the edge of **Lark
 | Main menu | Heat UI + Bamao overlays |
 | HUD | Bamao mini-bar |
 | Inventory | Bamao grid |
-| Dialogue | Bamao + Claude streaming text |
+| Dialogue | Bamao panel + reply buttons (renders `DialogueNodeSO`) |
 | Mission complete | Heat UI results |
 
 ## 10. Audio
 
 - Music: Piano + acoustic guitar; commission OST (~$300).
 - Ambience: Birdsong, crickets, wind. Stylized Weather + Game UI & Puzzle SFX Pack.
+- Optional villager VO clips drop into `DialogueNodeSO.voiceOver`.
 
 ## 11. Accessibility
 
-Text size XL, OpenDyslexic font, 3 colourblind presets, subtitle opacity, AI toggle.
+Text size XL, OpenDyslexic font, 3 colourblind presets, subtitle opacity. Branching reply buttons (no free-typed input required).
 
 ## 12. Cut-list (if scope slips)
 

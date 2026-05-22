@@ -1,6 +1,7 @@
 # 🧱 Technical Architecture — Hearth & Hex
 
 > **👨‍💻 Senior Unity Developer:** Mobile-grade, scalable-from-day-1. Mission 1 ships on the same code paths as Mission 6.
+> v0.2: removed runtime LLM dependency. Dialogue is hand-authored ScriptableObjects.
 
 ## 1. Stack
 
@@ -13,7 +14,7 @@
 | UI | Canvas + TextMeshPro |
 | Async loading | Addressables |
 | Save | JsonUtility → persistentDataPath |
-| AI co-pilot | Anthropic API via Node proxy |
+| Dialogue | Hand-authored `DialogueNodeSO` + `LineBankSO` (ScriptableObjects) |
 | Source control | Git + Unity Smart Merge + LFS |
 
 ## 2. Folder layout (`Assets/_Project/Scripts/`)
@@ -27,7 +28,7 @@ Core/        ← shared (every Inventix game)
   Checkpoint/ CheckpointService
   Events/     GameEventChannelSO
   Pooling/    ObjectPool
-AI/          ClaudeCopilotService, AICopilotPersonaSO
+Dialogue/    DialogueNodeSO, LineBankSO, ScriptedDialogueService
 UI/          MainMenuController, HUDController
 Gameplay/    ← Hearth & Hex specific
   Farming/    FarmPlot, CropDataSO
@@ -62,17 +63,18 @@ Player interacts FarmPlot → ReportObjectiveProgress('m1_till_plot')
 - **Farming:** FarmPlot state machine (Wild→Tilled→Planted→Watered→Growing→Ready). CropDataSO drives growth time, stages, yield.
 - **Time of day:** TimeOfDay runs 0-1440 min counter per in-game day; default 24 in-game min per real-life min.
 - **Hearth brewing:** HearthController accepts RecipeSO; success raises RecipeBrewedChannelSO event.
-- **NPC dialogue:** VillagerNpc holds AICopilotPersonaSO; E opens dialogue UI, calls IAICopilotService.Ask.
+- **NPC dialogue:** `VillagerNpc` holds a root `DialogueNodeSO`; E opens `DialogueUI` which renders the tree with player reply buttons; replies may report mission objectives.
 
 ## 6. Scalability checks ✅
 
 | Concern | Resolution |
 |---|---|
 | Adding M7 requires C#? | ❌ No — author MissionData_M07.asset + scene |
-| New NPC requires C#? | ❌ No — author Persona_*.asset + drag prefab |
+| New NPC requires C#? | ❌ No — author `Node_<Name>_Root.asset` tree + drag prefab |
 | Save format breaks on update? | ✅ kv dictionary preserves older fields |
 | GC during walk? | ✅ Pooling for VFX/SFX |
 | URP cost on integrated GPU? | ✅ Stylized Lit shaders only |
+| Internet outage breaks game? | ❌ No — fully offline |
 
 ## 7. Build targets
 

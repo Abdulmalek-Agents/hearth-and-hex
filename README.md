@@ -11,7 +11,8 @@
 | **Target frame-rate** | 60 fps on integrated GPU |
 | **Mission 1 scope** | Tutorial day → first crop → first villager friendship |
 | **Designed for** | 6 missions (seasonal arcs) |
-| **AI co-pilot** | Claude-powered village gossip & "Granny's Journal" hints |
+| **Runtime AI features** | **None** — the shipping game is fully offline and self-contained |
+| **AI in development** | Claude Code & Claude Agents are used by the studio to draft GDDs, generate C#, and write dialogue. See [docs/05_AI_ASSISTED_DEVELOPMENT.md](docs/05_AI_ASSISTED_DEVELOPMENT.md). |
 
 ---
 
@@ -41,17 +42,20 @@ hearth-and-hex/
 │   ├── 02_GAME_DESIGN_DOCUMENT.md
 │   ├── 03_ASSET_PLAN.md
 │   ├── 04_TECHNICAL_ARCHITECTURE.md
-│   ├── 05_AI_COPILOT_INTEGRATION.md
+│   ├── 05_AI_ASSISTED_DEVELOPMENT.md   ← Claude in the dev workflow (NOT in-game)
 │   ├── 06_CRITIC_REVIEW_CYCLES.md
 │   └── 07_UNITY_SETUP_GUIDE.md
-├── Assets/_Project/                 ← drop these straight into your Unity project
-│   ├── Scripts/                     ← ready-to-compile C#
-│   ├── Data/                        ← README + ScriptableObject author guide
-│   ├── Prefabs/                     ← (empty — author after asset import)
-│   ├── Scenes/                      ← (empty — author after asset import)
-│   ├── Art/                         ← (empty — destination for asset packs)
-│   └── Audio/
-└── server/copilot-proxy/            ← Node proxy for Claude API
+└── Assets/_Project/                 ← drop these straight into your Unity project
+    ├── Scripts/                     ← ready-to-compile C#
+    │   ├── Core/                    ← GameBootstrap, ServiceLocator, Mission, Save, Audio, Checkpoint, Pooling, Events
+    │   ├── Dialogue/                ← DialogueNodeSO, LineBankSO, ScriptedDialogueService
+    │   ├── Gameplay/                ← Farming, Player, NPC, Time, Mission01
+    │   └── UI/                      ← MainMenuController, HUDController
+    ├── Data/                        ← ScriptableObject authoring guide
+    ├── Prefabs/                     ← (empty — author after asset import)
+    ├── Scenes/                      ← (empty — author after asset import)
+    ├── Art/                         ← (empty — destination for asset packs)
+    └── Audio/
 ```
 
 ## Quick start
@@ -59,8 +63,9 @@ hearth-and-hex/
 1. **Read** [docs/07_UNITY_SETUP_GUIDE.md](docs/07_UNITY_SETUP_GUIDE.md) — exact click-by-click setup.
 2. **Create** a new Unity 2022.3 LTS URP project, then copy this repo's `Assets/_Project` folder into your Unity `Assets/` folder.
 3. **Import** the asset packs listed in [docs/03_ASSET_PLAN.md](docs/03_ASSET_PLAN.md) (Harvest Garden, Medieval Village Megapack, Toon Town, Stylized Weather System, BoZo Fantasy Characters, Bamao Pack Fantasy GUI, Game UI & Puzzle Sound Effects Pack — already in your Inventix Asset Store inventory).
-4. **Boot** the proxy: `cd server/copilot-proxy && npm install && npm run dev`.
-5. **Open** `Scenes/Bootstrap.unity` → Play.
+4. **Open** `Scenes/Bootstrap.unity` → Play.
+
+> No proxy server, no API key, no internet config required.
 
 ## Status
 
@@ -69,6 +74,7 @@ hearth-and-hex/
 | Concept locked (3 critic cycles) | ✅ |
 | GDD v1.0 approved | ✅ |
 | Architecture & scripts | ✅ |
+| v0.2 — runtime LLM removed, scripted dialogue stack | ✅ |
 | Mission 1 scene authored | ⏳ requires asset import in Unity |
 | Missions 2–6 outlined | ✅ data-driven, ready for content |
 | Steam page | ⬜ |
