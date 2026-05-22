@@ -1,6 +1,7 @@
 # 🎨 Asset Plan — Hearth & Hex
 
 > **🎨 Unity Asset Engineer:** Net coverage from Inventix existing inventory: **~85%**.
+> v0.2 note: "Dialogue System OpenAI Addon" no longer required (runtime LLM removed).
 
 ## 1. Existing inventory used
 
@@ -20,11 +21,10 @@
 | **Spells Pack** ($59.99) | Field charms (M3+) — pick gentle ones | 🟡 Helpful |
 | **Lumen Stylized Light FX 2** ($35) | Hearth glow, lanterns, moonrise | 🟡 Helpful |
 | **Cutscene Engine** ($35) | Journal opening, M5 confide, M6 moonrise | 🔴 Yes |
-| **Dialogue System OpenAI Addon** ($45) | Adapted to Claude (see 05) | 🟡 Helpful |
 | **Hierarchy Designer** ($30) | Editor productivity | 🟢 Optional |
 | **LightMap Fusion Pro** ($50) | Seasonal lightmap switching | 🟢 Optional |
 
-**Existing inventory value applied: ~$700 retail across 16 assets.**
+**Existing inventory value applied: ~$655 retail across 15 assets.**
 
 ## 2. Gap analysis — must-buy
 
@@ -38,7 +38,13 @@
 
 **Must-buy total worst case: ~$365. With OST royalty-free for M1: ~$65.**
 
-## 3. Folder organisation
+## 3. Removed from v0.1 list
+
+| Asset | Reason for removal |
+|---|---|
+| Dialogue System OpenAI Addon ($45) | Runtime LLM removed in v0.2. Hand-authored `DialogueNodeSO` trees replaced it. |
+
+## 4. Folder organisation
 
 ```
 Assets/_Project/
@@ -48,13 +54,13 @@ Assets/_Project/
 ├── Materials/
 ├── Prefabs/{Characters,Environment,UI,VFX}
 ├── Scenes/
-├── Data/{Missions,NPCs,AICopilot,Items}
-└── Scripts/
+├── Data/{Missions,Dialogue,LineBanks,Crops,Recipes,Items}
+└── Scripts/{Core,Dialogue,Gameplay,UI}
 ```
 
 After import, move third-party packages into `Art/...` via Unity 'Move asset' (preserves prefab references).
 
-## 4. Performance tweaks per asset
+## 5. Performance tweaks per asset
 
 | Asset | Tweak |
 |---|---|
@@ -65,14 +71,14 @@ After import, move third-party packages into `Art/...` via Unity 'Move asset' (p
 | BoZo | LOD0/LOD1 baked; LOD2 via Simplygon for mobile |
 | Bamao GUI | ASTC 6×6 mobile / BC7 PC compression |
 
-## 5. Licence audit ✅
+## 6. Licence audit ✅
 
 Unity Asset Store EULA covers all listed assets. Inventix already holds licences. **Asset binaries are NOT redistributed** in this repo (Asset Store EULA prohibition) — only references and import instructions.
 
-## 6. Post-purchase checklist
+## 7. Post-purchase checklist
 
 - [ ] Import every package per §1
-- [ ] Move to `_Project/Art/` per §3
+- [ ] Move to `_Project/Art/` per §4
 - [ ] Rig materials to URP/Lit
 - [ ] Add LOD groups on hero props
 - [ ] Configure ASTC/BC7 compression
@@ -81,3 +87,4 @@ Unity Asset Store EULA covers all listed assets. Inventix already holds licences
 - [ ] Build Crop_Wheat/Carrot/Pumpkin variants from Harvest Garden
 - [ ] Author Hearth.prefab with Lumen + Casual RPG VFX
 - [ ] Author WeatherDirector.prefab
+- [ ] Author 8× root `DialogueNodeSO` trees (Elra, Benn, Rosa, Tilda, Marek, Iva, Pell, Hara)

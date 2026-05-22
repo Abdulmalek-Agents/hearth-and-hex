@@ -34,7 +34,7 @@
 | Game | Style | Threat | Differentiation |
 |---|---|---|---|
 | Stardew Valley | Pixel farm RPG | Baseline | Stylized 3D, mission-based, shorter |
-| Coral Island | 3D farm | High | Smaller scope, witch theme, AI gossip |
+| Coral Island | 3D farm | High | Smaller scope, witch theme, gentle mystery |
 | Witchbrook | Pixel witch school | Adjacent | We are 3D farm + magic |
 | Garden Witch Life | Switch-first | Low | We are PC-first |
 | Grave Seasons | Cozy + dark | Adjacent | Our mystery is gentle, not horror |
@@ -52,10 +52,9 @@
 | Cozy UI | Bamao Pack + Heat UI | 90% |
 | Audio | Game UI & Puzzle SFX Pack | 85% |
 | Magic VFX | Casual RPG VFX + Spells Pack | 90% |
-| AI dialogue | Dialogue System OpenAI Addon → Claude | 70% |
 
 **Net: ~85% from existing inventory.** Must-buy: ~$65 (cottage interior, farm animals, cat). See `03_ASSET_PLAN.md`.
 
 ## 5. Recommendation
 
-✅ **GREENLIT** — Durable cozy sub-niche, near-complete asset coverage, clear differentiator (3D + light magic + Claude villagers) no competitor combines.
+✅ **GREENLIT** — Durable cozy sub-niche, near-complete asset coverage. The shipping game is fully offline and self-contained; AI is used only in the studio's development workflow (see `05_AI_ASSISTED_DEVELOPMENT.md`).

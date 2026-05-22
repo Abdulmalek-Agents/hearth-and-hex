@@ -1,4 +1,4 @@
-# 🔍 Critic & Review Board — 3 Cycles for Hearth & Hex
+# 🔍 Critic & Review Board — Cycles for Hearth & Hex
 
 > Full audit trail. Nothing approved without Board sign-off.
 
@@ -13,8 +13,8 @@
 
 **Required for Cycle 2:**
 1. Add hook differentiating from Stardew/Witchbrook → **resolved**: missing harvest moon mystery.
-2. Plan proxy + offline fallback → **resolved**: see 05.
-3. Estimate 1k-DAU cost → **resolved**: ~$7/day.
+2. Plan proxy + offline fallback → **resolved in v0.1, then superseded in v0.2 (runtime LLM removed entirely).**
+3. Estimate 1k-DAU cost → **resolved**: ~$7/day in v0.1; **$0 in v0.2**.
 
 ## Cycle 2 — GDD review
 
@@ -32,7 +32,7 @@
 3. Granny voice guide (elderly, kind, slightly cryptic, never condescending) → **added**.
 4. Accessibility options → **added** to GDD §11.
 
-## Cycle 3 — Architecture + Asset Plan + AI integration review
+## Cycle 3 — Architecture + Asset Plan + AI integration review (v0.1)
 
 | Reviewer | Verdict | Notes |
 |---|---|---|
@@ -47,14 +47,42 @@
 **Final required change:**
 1. Cap M4 rain particles at 200 (low) / 600 (high) → **done** in 04 §8.
 
-## ✅ Board verdict — FINAL
+## Cycle 4 — Re-scope (v0.2): AI is dev workflow, not runtime
 
-> **APPROVED.** Mission 1 vertical slice = first deliverable. Subsequent missions are data-only additions.
+> **Trigger:** the studio owner clarified that "AI integration" means using
+> AI **in development** (Claude Code, Claude Agents) to boost productivity —
+> never as a runtime gameplay feature.
 
-Signed: Lead Game Director, Technical Director, Trend Analyst, Asset Director, Accessibility Lead, AI/Cost Lead.
+| Reviewer | Verdict | Notes |
+|---|---|---|
+| Lead Game Director | ✅ Approved | Cozy farming core never needed LLM; hand-authored dialogue is the cozy-genre standard (Stardew, Coral Island, Witchbrook) |
+| Technical Director | ✅ Approved | Removing runtime LLM eliminates Anthropic dependency, proxy server, network failure path, GDPR/PII vectors |
+| Narrative Director | ⚠️ Approved w/ Notes | Need to commission 30–60 hand-written lines per villager — covered by Claude-in-dev writing pass |
+| Trend Analyst | ✅ Approved | No competitive disadvantage — none of our cozy peers ship runtime LLM either |
+| Asset Director | ✅ Approved | Drop Dialogue System OpenAI Addon ($45 saved); other assets unchanged |
+| Accessibility Lead | ✅ Approved | Branching reply buttons easier than free-typed input — improves accessibility |
+| QA Lead | ✅ Approved | Deterministic dialogue is dramatically easier to test |
+| AI/Cost Lead | ✅ Approved | Per-DAU LLM cost goes from $0.007 → $0 |
+
+**Required for v0.2:**
+1. Replace `ClaudeCopilotService` with `ScriptedDialogueService` → **done**.
+2. Replace `AICopilotPersonaSO` with `DialogueNodeSO` + `LineBankSO` → **done**.
+3. Rewrite `VillagerNpc` + `DialogueUI` for branching scripted dialogue → **done**.
+4. Delete `server/copilot-proxy/` → **done**.
+5. Replace `docs/05_AI_COPILOT_INTEGRATION.md` with `docs/05_AI_ASSISTED_DEVELOPMENT.md` → **done**.
+6. Update README / CHANGELOG / docs to drop runtime-AI claims → **done**.
+7. Commission writers (Claude-in-dev pass) for full M1 dialogue lines → **content task, tracked separately**.
+
+## ✅ Board verdict — v0.2 FINAL
+
+> **APPROVED.** Mission 1 vertical slice = first deliverable, now fully offline
+> and self-contained. Subsequent missions are data-only additions.
+
+Signed: Lead Game Director, Technical Director, Trend Analyst, Asset Director,
+Accessibility Lead, QA Lead, AI/Cost Lead, Narrative Director.
 
 ## Open watch-list
 
 - Genre saturation 2027 → reposition copy if needed
-- LLM token-cost shifts → swap Sonnet → Haiku for non-critical NPCs
-- Player typing fatigue → add quick-reply chips if telemetry < 30% engagement
+- Dialogue line authoring throughput → keep Claude-in-dev writing pass on schedule
+- Player perception of "shorter cozy" → measure with first 1k wishlist demographic
