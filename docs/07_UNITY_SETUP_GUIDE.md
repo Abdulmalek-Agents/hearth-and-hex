@@ -1,0 +1,120 @@
+# 🛠️ Unity Setup Guide — Hearth & Hex
+
+> Step-by-step. Follow in order → end with a playable Mission 1.
+
+## Prerequisites
+
+- Unity Hub + Unity **2022.3.30f1 LTS** with Windows IL2CPP module
+- Each asset from `docs/03_ASSET_PLAN.md` in your Inventix Asset Store account
+- Node.js 18+ for the AI proxy
+- Anthropic API key (only for AI features)
+
+## Step 1 — Create the Unity project
+
+1. Unity Hub → **New project** → **3D (URP) Core**.
+2. Name: `HearthAndHex` (no spaces). Choose drive with 20+ GB free.
+3. **Create project**.
+
+## Step 2 — Drop this repo in
+
+```bash
+git clone https://github.com/Abdulmalek-Agents/hearth-and-hex.git
+```
+
+Copy this repo's `Assets/_Project/` → `<UnityProject>/Assets/_Project/`.
+Copy `.gitignore` to project root.
+Unity recompiles — should be **zero errors**. If TMP errors: **Window → TextMeshPro → Import TMP Essentials**.
+
+## Step 3 — Render Pipeline + Quality
+
+1. **Project Settings → Graphics**: URP asset assigned.
+2. **Project Settings → Quality**: High (PC default); make Low tier without HDR/Soft Particles.
+3. **Project Settings → Player → Color Space → Linear**.
+
+## Step 4 — Import assets (in order!)
+
+Order matters (shared shader overwrites):
+
+1. Bamao Pack Fantasy GUI
+2. Heat Complete Modern UI
+3. Stylized Weather System
+4. Zephyr Dynamic Wind
+5. Medieval Village Megapack
+6. Toon Town
+7. Harvest Garden
+8. BoZo Stylized Modular Characters Fantasy
+9. Eyes Animator
+10. Casual RPG VFX
+11. Spells Pack
+12. Lumen Stylized Light FX 2
+13. Cutscene Engine
+14. Game UI & Puzzle SFX Pack
+15. (optional) Hierarchy Designer + LightMap Fusion Pro
+
+After each: delete the demo scene; move package folder to `Assets/_Project/Art/...`.
+
+## Step 5 — Bootstrap scene
+
+1. **New Scene → Empty** → save `Scenes/Bootstrap.unity`.
+2. Create empty `[Game]` GameObject. Add `GameBootstrap` component.
+3. Add to Build Settings **as index 0**.
+
+## Step 6 — MainMenu scene
+
+1. **New Scene → Empty** → save `Scenes/MainMenu.unity`.
+2. Drag Heat UI main menu prefab in.
+3. Add `MainMenuController` to menu root.
+4. Wire Continue/NewGame/Quit buttons in Inspector.
+5. **Create → Inventix → Mission → Mission Database** → drag into controller.
+6. Build Settings index 1.
+
+## Step 7 — Author Mission 1
+
+1. **New Scene → 3D** → save `Scenes/Mission01_WelcomeHome.unity`.
+2. Directional Light 'Sun', rotation `(45, -30, 0)`.
+3. Drag Stylized Weather prefab; preset 'Misty Morning'.
+4. Drop Medieval Village cottage at origin. Doorway BoxCollider as trigger `Trig_Door_Out`.
+5. Drop Harvest Garden raised-bed; add 9 FarmPlot components (3×3).
+6. 60m down path: 4-6 Toon Town buildings around a well.
+7. Drop BoZo NPCs near inn (`NPC_Elra`) and shepherd house (`NPC_Benn`). Attach VillagerNpc + Persona_*.asset.
+8. Drop Player_Witch.prefab at cottage spawn. Cinemachine FreeLook camera.
+9. Empty `[Mission01Director]` GameObject; attach Mission01Director.cs; wire triggers.
+10. **Create → Inventix → Mission → Mission Data**, name `MissionData_M01.asset`. Fill 8 objectives (see GDD §6).
+11. Add to MissionDatabase. Build Settings index 2.
+
+## Step 8 — Run AI proxy
+
+```bash
+cd server/copilot-proxy
+cp .env.example .env   # set ANTHROPIC_API_KEY
+npm install && npm run dev
+```
+
+Proxy on `http://localhost:8787` matches ClaudeCopilotService.
+
+## Step 9 — Author the 6 personas
+
+For each: **Create → Inventix → AI Copilot → Persona** → `Persona_<Id>.asset` → fill `npcId`, `displayName`, `systemPrompt`. Starter Elra prompt in 05 §5.
+
+## Step 10 — First playtest
+
+1. Open `Bootstrap.unity` → **Play**.
+2. Bootstrap → MainMenu → New Game → MissionManager loads M01 scene.
+3. Cottage → outside → till 3 → plant 3 → water 3 → walk to village → E on Elra → type 'hello' → Claude responds → return home → Mission complete.
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `IMissionService not registered` | Bootstrap not scene 0 |
+| Pink materials | URP not assigned OR convert Built-in → URP |
+| Player falls through ground | Add MeshCollider to raised bed |
+| Claude no response | Proxy down or wrong port in ClaudeCopilotService |
+| FPS drop in village | Mesh-combine statics, bake lightmaps |
+| Weird eyes | Eyes Animator needs Left/Right Eye transforms per villager |
+
+## After M1 plays
+
+1. Tag `v0.1-mission1-playable`.
+2. Author M2: duplicate scene, create `MissionData_M02.asset`, add Mission02Director.
+3. Repeat M3-M6. **Zero core C# changes** required — that's the architecture win.
