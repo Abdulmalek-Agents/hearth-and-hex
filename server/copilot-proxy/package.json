@@ -1,0 +1,14 @@
+{
+  "name": "inventix-claude-copilot-proxy",
+  "version": "0.1.0",
+  "description": "Anthropic Messages API proxy for Unity Claude AI co-pilot integrations.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^2.7.0"
+  }
+}
