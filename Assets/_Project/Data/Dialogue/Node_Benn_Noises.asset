@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da000000000000000000000000000001, type: 3}
+  m_Name: Node_Benn_Noises
+  nodeId: Node_Benn_Noises
+  speakerId: benn
+  speakerDisplayName: Benn
+  speakerLine: "Elra talks too much. But yes, a low humming sound, like a giant tuning fork, coming from under the stones. It stopped when I got close, but it felt... wrong."
+  voiceOver: {fileID: 0}
+  replies:
+    - playerLine: "Did you see anything?"
+      next: {fileID: 11400000, guid: b1000000000000000000000000000005, type: 2}
+      objectiveIdToReport: ""
+    - playerLine: "Sounds like wind in the caverns."
+      next: {fileID: 0}
+      objectiveIdToReport: ""
